@@ -1,0 +1,218 @@
+﻿<Window x:Class="StudentsList.View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:StudentsList.viewmodel"
+        Title="Students List by Mateusz Kamiński" Height="450" Width="450" MinHeight="350" MinWidth="350" MaxHeight="900" MaxWidth="900">
+
+    <Window.DataContext>
+        <v:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <DockPanel LastChildFill="True">
+        <DockPanel.Resources>
+            <Style TargetType="Label">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="3,3,3,3" />
+                <Setter Property="Height" Value="40" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Command" Value="{Binding ButtonCommand}" />
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="2,2,2,2" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="2,2,2,2" />
+            </Style>
+        </DockPanel.Resources>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0">Wybierz grupę:</Label>
+            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                      SelectedItem="{Binding SelectedGroup}" ItemsSource="{Binding GroupList}"/>
+        </Grid>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Label Grid.Row="0" Grid.Column="0">Imię* :</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" MaxLength="32"
+                 Text="{Binding StudentName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="1" Grid.Column="0">Nazwisko* :</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLength="32"
+                 Text="{Binding StudentSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="2" Grid.Column="0">Indeks* :</Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" MaxLength="10" 
+                 Text="{Binding StudentIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Row="3" Grid.Column="0" Grid.RowSpan="2"  Content="Nowy" IsEnabled="{Binding IsNewButtonEnabled}"
+                ToolTipService.ShowOnDisabled="True" ToolTipService.IsEnabled="{Binding ShowNewButtonTooltip}"
+                CommandParameter="new">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Błędy w formularzu</TextBlock>
+                            <TextBlock>Wszystkie pola są wymagane.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Content="Zapisz" IsEnabled="{Binding IsSaveButtonEnabled}"
+                ToolTipService.ShowOnDisabled="True" ToolTipService.IsEnabled="{Binding ShowSaveButtonTooltip}"
+                CommandParameter="save">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Błędy w formularzu</TextBlock>
+                            <TextBlock>Wszystkie pola są wymagane.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button Grid.Row="3" Grid.Column="2" Grid.RowSpan="2" Content="Usuń" IsEnabled="{Binding IsDeleteButtonEnabled}" 
+                ToolTipService.ShowOnDisabled="True" ToolTipService.IsEnabled="{Binding ShowDeleteButtonTooltip}"
+                CommandParameter="delete" >
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Wybierz studenta</TextBlock>
+                            <TextBlock>Wybierz studenta z listy, aby go usunąć.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+        </Grid>
+        <ListBox Margin="3,3,3,3" SelectionMode="Single"
+                 SelectedItem="{Binding ChosenStudent, Mode=TwoWay}" ItemsSource="{Binding StudentsList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Label Content="{Binding Path=FirstName}" Foreground="White"/>
+                        <Label Content="{Binding Path=LastName}" Foreground="White"/>
+                        <Label Content="{Binding Path=IndexNo}" Foreground="Aquamarine"/>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+
+
+    <!--<Grid Background="DarkGray">
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="2,2,2,2" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Command" Value="{Binding ButtonCommand}" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="IsEnabled" Value="True"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="2,2,2,2" />
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label>Wybierz grupę:</Label>
+        <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                  SelectedItem="{Binding SelectedGroup}" ItemsSource="{Binding GroupList}"/>
+        <ListBox Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" SelectionMode="Single"
+                 SelectedItem="{Binding ChosenStudent, Mode=TwoWay}" ItemsSource="{Binding StudentsList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Label Content="{Binding Path=FirstName}" Foreground="White"/>
+                        <Label Content="{Binding Path=LastName}" Foreground="White"/>
+                        <Label Content="{Binding Path=IndexNo}" Foreground="Aquamarine"/>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <Label Grid.Row="4" Grid.Column="0">Imię* :</Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" MaxLength="32"
+                 Text="{Binding StudentName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="5" Grid.Column="0">Nazwisko* :</Label>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" MaxLength="32"
+                 Text="{Binding StudentSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="6" Grid.Column="0">Indeks* :</Label>
+        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" MaxLength="10" 
+                 Text="{Binding StudentIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Row="7" Grid.Column="0" Content="Nowy" IsEnabled="{Binding IsNewButtonEnabled}"
+                ToolTipService.ShowOnDisabled="True" ToolTipService.IsEnabled="{Binding ShowNewButtonTooltip}"
+                CommandParameter="new">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold">Błędy w formularzu</TextBlock>
+                        <TextBlock>Wszystkie pola są wymagane.</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+        <Button Grid.Row="7" Grid.Column="1" Content="Zapisz" IsEnabled="{Binding IsSaveButtonEnabled}"
+                ToolTipService.ShowOnDisabled="True" ToolTipService.IsEnabled="{Binding ShowSaveButtonTooltip}"
+                CommandParameter="save">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold">Błędy w formularzu</TextBlock>
+                        <TextBlock>Wszystkie pola są wymagane.</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+        <Button Grid.Row="7" Grid.Column="2" Content="Usuń" IsEnabled="{Binding IsDeleteButtonEnabled}" 
+                ToolTipService.ShowOnDisabled="True" ToolTipService.IsEnabled="{Binding ShowDeleteButtonTooltip}"
+                CommandParameter="delete" >
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold">Wybierz studenta</TextBlock>
+                        <TextBlock>Wybierz studenta z listy, aby go usunąć.</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+    </Grid>-->
+</Window>
